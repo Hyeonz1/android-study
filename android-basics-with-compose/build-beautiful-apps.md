@@ -28,5 +28,54 @@
 #### Theme file
 - 앱 테마에 대한 정보가 담긴 파일
 - color, typography, shape를 통해 정의된다.
+- Theme.kt 파일은 다음과 같이 작성한다.
+```kotlin
+fun WoofTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColor: Boolean = false,
+    content: @Composable () -> Unit
+) {
+    val colorScheme = when {
+        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+            val context = LocalContext.current
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
 
-- 
+        darkTheme -> DarkColors
+        else -> LightColors
+    }
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.statusBarColor = colorScheme.primary.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            
+        }
+    }
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        shapes = Shapes,
+        typography = Typography,
+        content = content
+    )
+}
+```
+- MainActivity.kt 파일에서 다음과 같이 선언하면 전체 앱에 Material 테마를 적용할 수 있다.
+```kotlin
+class MainActivity : ComponentActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+       super.onCreate(savedInstanceState)
+       setContent {
+           WoofTheme {
+               Surface(
+                   modifier = Modifier.fillMaxSize()
+               ) {
+                   WoofApp()
+               }
+           }
+       }
+   }
+}
+```
