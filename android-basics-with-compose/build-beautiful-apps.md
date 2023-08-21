@@ -79,3 +79,37 @@ class MainActivity : ComponentActivity() {
    }
 }
 ```
+## 4. Add color
+#### color 리소스란?
+  - 앱에서 처음 설정해주어야 하는 요소이다.
+  - `Color`는 hexadecimal 값으로 표현된다.
+    - #{ARGB}
+
+#### Use Material Theme Builder to create a color scheme
+- [Material Theme Builder](https://m3.material.io/theme-builder#/custom)를 통해 custom color scheme을 만들 수 있다.
+- color roles
+  - primary colors: used for key components
+  - secondary colors: used for less prominent components
+  - tertiary colors: used for contrasting accents that can be used to balance primary and secondary colors or bring heightened attention to an element, such as an input field
+  - on colors: 팔레트의 색상 위에 나타내며, 주로 텍스트, 아이콘, 획에 적용된다.
+- color scheme의 활용
+  1. Color.kt 파일 설정
+  2. Theme.kt 파일 설정
+  - 자세한 설정 예제는 [여기](https://developer.android.com/codelabs/basic-android-kotlin-compose-material-theming?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fandroid-basics-compose-unit-3-pathway-3%3Fhl%3Den%23codelab-https%3A%2F%2Fdeveloper.android.com%2Fcodelabs%2Fbasic-android-kotlin-compose-material-theming&hl=en#3)를 참고한다.
+
+#### Color mapping
+- Material component는 컬러 슬롯과 자동적으로 매칭된다.
+  - [ex] status bar는 Primary color의 색을 가진다.
+ 
+#### Dimens file
+- dimension value를 저장하기 위해 dimens.xml 파일을 사용한다.
+  - 하드 코드 방지
+- 예제 코드
+```xml
+<resources>
+   <dimen name="padding_small">8dp</dimen>
+   <dimen name="padding_medium">16dp</dimen>
+   <dimen name="image_size">64dp</dimen>
+</resources>
+```
+- `modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small))`
